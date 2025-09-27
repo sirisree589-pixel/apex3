@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced Styling and JS</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    header, section {
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    /* Responsive Grid Layout */
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Carousel */
+    .carousel {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .carousel img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .carousel-controls {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    /* Joke Box */
+    .joke-box {
+      background: #f4f4f4;
+      padding: 20px;
+      border-radius: 8px;
+      min-height: 80px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Advanced Styling and JavaScript</h1>
+    <p>This project includes a responsive layout, an image carousel, and an API-powered joke box.</p>
+  </header>
+
+  <section class="grid-container">
+    <!-- Image Carousel -->
+    <div>
+      <h2>Image Carousel</h2>
+      <div class="carousel">
+        <img id="carouselImage" src="https://picsum.photos/id/1015/400/300" alt="Carousel Image">
+        <div class="carousel-controls">
+          <button onclick="prevImage()">⟨ Prev</button>
+          <button onclick="nextImage()">Next ⟩</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Fetch -->
+    <div>
+      <h2>Random Joke (API)</h2>
+      <div class="joke-box" id="jokeBox">Click the button to load a joke!</div>
+      <button onclick="getJoke()">Get Joke</button>
+    </div>
+  </section>
+
+  <script>
+    // === Carousel Logic ===
+    const images = [
+      'https://picsum.photos/id/1015/400/300',
+      'https://picsum.photos/id/1016/400/300',
+      'https://picsum.photos/id/1018/400/300',
+      'https://picsum.photos/id/1019/400/300'
+    ];
+    let currentImage = 0;
+
+    function showImage() {
+      document.getElementById('carouselImage').src = images[currentImage];
+    }
+
+    function nextImage() {
+      currentImage = (currentImage + 1) % images.length;
+      showImage();
+    }
+
+    function prevImage() {
+      currentImage = (currentImage - 1 + images.length) % images.length;
+      showImage();
+    }
+
+    // === API Fetch Logic ===
+    async function getJoke() {
+      const res = await fetch('https://icanhazdadjoke.com/', {
+        headers: { 'Accept': 'application/json' }
+      });
+      const data = await res.json();
+      document.getElementById('jokeBox').textContent = data.joke;
+    }
+  </script>
+
+</body>
+</html>
